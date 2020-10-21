@@ -9,13 +9,15 @@
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"  media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>title</title>
-  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <!-- <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon"> -->
   </head>
 
-  <header>Discomfort Zone</header>
+  <header>
+    <h1>Discomfort Zone</h1>
+  </header>
   <body>
   <div class="container">
-    <div class="row">dark/light mode slider
+    <div class="row"></div>
       <div class="fixed-action-btn">
         <a class="btn-floating btn-large green lighten-1">
           <i class="large material-icons">visibility</i>
@@ -27,10 +29,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">Location Input </div>
-      <div class="col">Time Input </div>
-      <div class="col">Mode Input</div>
-      <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
+      <div class="col s3 m2 l2">
+        <h6>Starting location</h6>
+        <input type="text" id="locationInput"></input>
+      </div>
+      <div class="col s3 m2 l2">
+        <h6>How far will you travel?</h6>
+        <input type="text" id="timeInput"></input>
+      </div>
+      <div class="col s3 m2 l2">
+        <h6>Mode of transport</h6>
+        <select name="mode" id="modeInput">
+          <option value="car">Car</option>
+          <option value="car">Public transport</option>
+          <option value="car">Walking</option>
+          <option value="car">Bike</option>
+        </select>
+      </div>
+      <div class="col s3 m2 l2">
+        <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
+     </div>
     </div>
     <div class="row">
       card for rendering map 

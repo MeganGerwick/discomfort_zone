@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function getAjax(params) {
     console.log("I work");
-})
+}
 
 //Render map
 //Render search results
