@@ -9,10 +9,15 @@
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"  media="screen,projection"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>title</title>
-  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+
+  <!-- Google Maps API Source with Biaka's API KEY : JQuery-->
   <script
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4&callback=initMap&libraries=&v=weekly"
+  defer
 ></script>
+
+  <!-- Google Map Itself -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js"></script> -->
   </head>
 
   <header>Discomfort Zone</header>
@@ -29,18 +34,25 @@
         </ul>
       </div>
     </div>
+
+    <!-- Input Location, Time, and Mode of Transportation for Travel -->
     <div class="row">
       <div class="col">Location Input </div>
       <div class="col">Time Input </div>
       <div class="col">Mode Input</div>
       <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
     </div>
+
     <div class="row">
-        <div id="map"></div>
+
+      <!-- Google Map Display (This is temporary for testing) -->
+        <div id="discomfortMap" style="width:550px;height:550px;"></div>
     </div>
+
     <div class="row">
       Get Discomfortable!
     </div>
+
     <div class="row">
       Results-maybe set up a table? 
     </div>
@@ -49,7 +61,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
   </body>
 
 </html>

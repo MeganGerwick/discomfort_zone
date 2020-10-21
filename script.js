@@ -12,13 +12,16 @@ function getAjax(params) {
     console.log("I work");
 }
 
-function getAjax()
+
 //KCMO Coordinates: 39.0997° N, 94.5786° W
-function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: {lat: 39.0997, lng: 94.5886 },
-        zoom: 8
-    })
+//Practicing Google  Map API call Line 19-24
+function Initialize() {
+    var mapProperty = {
+        centerScreen: new google.maps.LatLng(39.0997, 94.5786),
+        zoom: 5,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    var map = new google.maps.Map(document.getElementById("discomfortMap"), mapProperty);
 }
 
 
