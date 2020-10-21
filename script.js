@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
 //Button Click handler
     //ajax call to apis
 
+function getAjax(params {
+    console.log("I work");
+})
+
 //Render map
 //Render search results
 //Add clickable results to webpage or copy address (if everything else is done)
