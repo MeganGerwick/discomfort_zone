@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //Button Click handler
     //ajax call to apis
 
-function getAjax(params {
+function getAjax(params) {
     console.log("I work");
 })
 
