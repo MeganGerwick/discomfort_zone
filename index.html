@@ -13,11 +13,11 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<!-- Google Maps API Source with Biaka's API KEY : JQuery-->
+<!-- Google Maps API Source with Biaka's API KEY : JQuery *Moved this to BODY for now -BZ*
         <script
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4&callback=initMap"
           async defer>
-        </script>
+        </script> -->
 
  <!-- Google Map JQuery Itself
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
@@ -54,9 +54,14 @@
       <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
     </div>
 
-<!-- Google Map Display Area (This is temporary for testing & utilizing the tips from Travel Time, Default will be KCMO: 39.0997° N, 94.5786° W) -->
+<!-- Google Map Display Area (This is temporary for testing & utilizing the tips from Travel Time, Default will be KCMO: 39.0997° N, -94.5786° W) -->
     <div class="row">
         <div id="discomfortMap" style="width:550px;height:550px;"></div>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4&callback=initMap"
+          async defer>
+        </script>
+
 
     </div>
 
