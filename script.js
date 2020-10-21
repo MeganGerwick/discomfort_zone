@@ -23,6 +23,8 @@ function Initialize() {
     };
     var map = new google.maps.Map(document.getElementById("discomfortMap"), mapProperty);
 }
+google.maps.event.addDomListener(window, 'load', initialize);
+
 
 
 //Render map
