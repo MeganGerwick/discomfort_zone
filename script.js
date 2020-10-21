@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //Button Click handler
     //ajax call to apis
 
-// function getAjax(params {
-//     console.log("I work");
-// })
+function getAjax(params) {
+    console.log("I work");
+})
 
 //Render map
 //Render search results
