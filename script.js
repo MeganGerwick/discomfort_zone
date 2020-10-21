@@ -8,22 +8,19 @@ document.addEventListener('DOMContentLoaded', function() {
 //Button Click handler
     //ajax call to apis
 
-function getAjax(params) {
-    console.log("I work");
-}
+// function getAjax(params) {
+//     console.log("I work");
+// }
 
 
 //KCMO Coordinates: 39.0997° N, 94.5786° W
 //Practicing Google  Map API call Line 19-24
-function Initialize() {
-    var mapProperty = {
-        centerScreen: new google.maps.LatLng(39.0997, 94.5786),
-        zoom: 5,
-        mapTypeId: google.maps.MapTypeId.HYBRID
+var map;
+function initMap() {
+    var mapOptions = {
+        center: {lat: 39.0997, lng: 94.5786},
+        zoom: 8,
     };
-    var map = new google.maps.Map(document.getElementById("discomfortMap"), mapProperty);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
 
 
 
