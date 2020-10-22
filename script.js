@@ -33,7 +33,7 @@ function initMap() {
         title: 'Kansas City: Crown Town',
         animation: google.maps.Animation.DROP
     });
-}
+};
 
 
 
@@ -42,3 +42,24 @@ function initMap() {
 //Add clickable results to webpage or copy address (if everything else is done)
 
 //Dark and Light mode in local storage
+
+// Get user location data 
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        // Error/decline handler
+        // Default to KC? 
+        console.log("something went wrong");
+    }
+};
+
+// Handler for location data
+function showPosition(position) {
+    // User latitude
+    console.log(position.coords.latitude);
+    // User longtude
+    console.log(position.coords.longitude);
+}
+
+getUserLocation();
