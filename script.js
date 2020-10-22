@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
 //Button Click handler
 //ajax call to apis
 
+var travelTimeAppID = '1a8d3c90';
+var travelTimeAPIKey = '59530f476afdb89ee3907bf314e7d611';
+
 // function getAjax(params) {
 //     console.log("I work");
 // }
