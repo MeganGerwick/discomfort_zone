@@ -4,8 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.FloatingActionButton.init(elems, {
         direction: 'left'
     });
-});
+  });
 
+//Initialize dropdown menu for mode of transport
+$(document).ready(function(){
+  $('select').formSelect();
+});
 
 //Button Click handler
 //ajax call to apis
@@ -36,6 +40,12 @@ function initMap() {
 };
 
 
+<<<<<<< HEAD
+function getAjax(params) {
+    console.log("I work");
+}
+=======
+>>>>>>> development
 
 //Render map
 //Render search results
