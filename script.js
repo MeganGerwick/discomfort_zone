@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
       direction: 'left'
     });
   });
+
+//Initialize dropdown menu for mode of transport
+$(document).ready(function(){
+  $('select').formSelect();
+});
+
 //Button Click handler
     //ajax call to apis
 
