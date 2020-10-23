@@ -1,42 +1,178 @@
+<!-- <html>
+
+<head>
+    <style>
+        body {
+            background-color: gray;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+--> 
+<!--
+//         var map;
+//         function initMap() {
+//             var mapOpts = {
+//                 center: { lat: 51.5031653, lng: -0.1123051 },
+//                 zoom: 13,
+//             };
+
+//             map = new google.maps.Map(document.getElementById('map'), mapOpts);
+
+//             var marker0 = new google.maps.Marker({
+//                 position: { lat: 51.5031653, lng: -0.1123051 },
+//                 map: map,
+//                 title: 'London Waterloo train station',
+//                 animation: google.maps.Animation.DROP
+//             });
+
+//             if (!google.maps.Polygon.prototype.getBounds) {
+//                 google.maps.Polygon.prototype.getBounds = function () {
+//                     var bounds = new google.maps.LatLngBounds();
+//                     var paths = this.getPaths();
+//                     var path;
+//                     for (var i = 0; i < paths.getLength(); i++) {
+//                         path = paths.getAt(i);
+//                         for (var ii = 0; ii < path.getLength(); ii++) {
+//                             bounds.extend(path.getAt(ii));
+//                         }
+//                     }
+//                     return bounds;
+//                 }
+//             }
+//             console.log(startingLocation);
+//             sendGeocodingRequest(startingLocation);
+//         }
+
+//         // The name of the starting location. We will have to geocode this to coordinates.
+//         var startingLocation = "London Waterloo Station";
+//         // The departure time in an ISO format.
+//         var departureTime = new Date().toJSON();
+//         // Travel time in seconds. We want 15 minutes travel time so it is 15 minutes x 60 seconds.
+//         var travelTime = 60 * 15;
+//         // These secret variables are needed to authenticate the request. Get them from http://docs.traveltimeplatform.com/overview/getting-keys/ and replace 
+//         var travelTimeAppID = '1a8d3c90';
+//         var travelTimeAPIKey = '59530f476afdb89ee3907bf314e7d611';
+
+//         var APPLICATION_ID = travelTimeAppID;
+//         var API_KEY = travelTimeAPIKey;
+
+
+//         // Sends the geocoding request.
+//         function sendGeocodingRequest(location) {
+//             // The request for the geocoder. Reference: http://docs.traveltimeplatform.com/reference/geocoding-search/
+//             var request = {
+//                 query: location
+//             };
+//             var xhr = new XMLHttpRequest();
+//             xhr.responseType = "json";
+//             xhr.open("GET", "https://api.traveltimeapp.com/v4/geocoding/search?query=" + location)
+//             xhr.setRequestHeader("X-Application-Id", APPLICATION_ID);
+//             xhr.setRequestHeader("X-Api-Key", API_KEY);
+//             xhr.setRequestHeader("Accept-Language", " en-US");
+//             xhr.onreadystatechange = function () {
+//                 if (xhr.status >= 200 && xhr.status < 300) {
+//                     if (xhr.readyState === 4) {
+//                         console.log(xhr.response);
+//                         sendTimeMapRequest(xhr.response)
+//                     }
+//                 } else {
+//                     console.error("Check your login")
+//                 }
+//             };
+//             xhr.send();
+//         };
+
+
+//         // Sends the request of the Time Map multipolygon.
+//         function sendTimeMapRequest(geocodingResponse) {
+
+//             // The request for Time Map. Reference: http://docs.traveltimeplatform.com/reference/time-map/
+//             var coords = geocodingResponse.features[0].geometry.coordinates;
+//             var latLng = { lat: coords[1], lng: coords[0] };
+
+//             var request = {
+//                 departure_searches: [{
+//                     id: "first_location",
+//                     coords: latLng,
+//                     transportation: {
+//                         type: "public_transport" //Comes from input
+//                     },
+
+//                     departure_time: departureTime,
+//                     travel_time: travelTime
+//                 }],
+
+//                 arrival_searches: []
+//             };
+
+//             var xhr = new XMLHttpRequest() 
+//             //.then in ajax
+//             xhr.addEventListener("readystatechange", function () {
+//                 if (this.readyState === 4) {
+//                     console.log(this.response);
+//                     //drawTimeMap(this.response);
+//                 }
+//             });
+//             xhr.open("POST", "https://api.traveltimeapp.com/v4/time-map")
+//             xhr.setRequestHeader("X-Application-Id", APPLICATION_ID);
+//             xhr.setRequestHeader("X-Api-Key", API_KEY);
+//             xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+//             xhr.responseType = "json";
+//             xhr.send(JSON.stringify(request));
+
+
+//             // Draws the resulting multipolygon from the response on the map.
+//             function drawTimeMap(response) {
+
+//                 // Reference for the response: http://docs.traveltimeplatform.com/reference/time-map/#response-body-json-attributes
+
+//                 var paths = response.results[0].shapes.map(function (polygon) {
+//                     var shell = polygon.shell
+//                     var holes = polygon.holes
+//                     return [shell].concat(holes);
+//                 }).map(x => x[0]);
+
+//                 var polygon = new google.maps.Polygon({
+//                     paths,
+//                     strokeColor: "#F5A623",
+//                     strokeOpacity: 1,
+//                     strokeWeight: 5,
+//                     fillColor: "#46461F",
+//                     fillOpacity: 0.25
+//                 });
+//                 polygon.setMap(map);
+//                 map.fitBounds(polygon.getBounds())
+
+//             };
+//         }
+
+-->
+
 <!DOCTYPE html>
-
-<!-- How to load Google Map in Materialize Modal? -->
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-        <!--JQuery-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-        <!--Google Map-->
-        <script src="https://maps.googleapis.com/maps/api/js"></script>
-
-        <!--Materialize-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
-        <!--Script-->
-        <script src="./practice.js"></script>
-    </head>
-    <body>
-      Click here to open the model:&nbsp;
-        <a href="#mapmodel" class="modal-trigger blue z-depth-1 waves-effect waves-light btn-floating">
-            <i class="red material-icons">location_on</i>
-        </a>
-        
-        <br><br><br>
-        map div inside body:
-        <div id="googleMap" style="width:500px;height:380px;"></div>
-
-        <div id="mapmodel" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h4>map div inside model:</h4>
-                <div id="googleMap2" style="width:500px;height:380px;"></div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="red modal-action modal-close waves-effect waves-green btn-flat">Got it</a>
-            </div>
-        </div>
-    </body>
-</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <div id='map'></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./practice.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4&callback=initMap"
+    async defer></script>
+</body>
+</html> 
