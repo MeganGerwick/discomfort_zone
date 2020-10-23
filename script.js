@@ -4,8 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.FloatingActionButton.init(elems, {
         direction: 'left'
     });
-});
+  });
 
+//Initialize dropdown menu for mode of transport
+$(document).ready(function(){
+  $('select').formSelect();
+});
 
 //Button Click handler
 //ajax call to apis
@@ -33,9 +37,15 @@ function initMap() {
         title: 'Kansas City: Crown Town',
         animation: google.maps.Animation.DROP
     });
+};
+
+
+<<<<<<< HEAD
+function getAjax(params) {
+    console.log("I work");
 }
-
-
+=======
+>>>>>>> development
 
 //Render map
 //Render search results
@@ -43,6 +53,7 @@ function initMap() {
 
 //Dark and Light mode in local storage
 
+<<<<<<< HEAD
 // "Working" API calls 
 
 var map;
@@ -204,3 +215,25 @@ function success(data) {
 
         };
     }
+=======
+// Get user location data 
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        // Error/decline handler
+        // Default to KC? 
+        console.log("something went wrong");
+    }
+};
+
+// Handler for location data
+function showPosition(position) {
+    // User latitude
+    console.log(position.coords.latitude);
+    // User longtude
+    console.log(position.coords.longitude);
+}
+
+getUserLocation();
+>>>>>>> development
