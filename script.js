@@ -41,12 +41,6 @@ function initMap() {
 };
 
 
-<<<<<<< HEAD
-function getAjax(params) {
-    console.log("I work");
-}
-=======
->>>>>>> development
 
 //Render map
 //Render search results
@@ -54,7 +48,6 @@ function getAjax(params) {
 
 //Dark and Light mode in local storage
 
-<<<<<<< HEAD
 // "Working" API calls 
 
 var map;
@@ -216,7 +209,6 @@ function success(data) {
 
         };
     }
-=======
 // Get user location data 
 function getUserLocation() {
     if (navigator.geolocation) {
@@ -237,4 +229,3 @@ function showPosition(position) {
 }
 
 getUserLocation();
->>>>>>> development
