@@ -1,3 +1,17 @@
+// The name of the starting location. We will have to geocode this to coordinates.
+var startingLocation = "London Waterloo Station";
+// The departure time in an ISO format.
+var departureTime = new Date().toJSON();
+// Travel time in seconds. We want 15 minutes travel time so it is 15 minutes x 60 seconds.
+var travelTime = 60 * 15;
+// These secret variables are needed to authenticate the request. Get them from http://docs.traveltimeplatform.com/overview/getting-keys/ and replace 
+
+// var APPLICATION_ID = travelTimeAppID;
+// var API_KEY = travelTimeAPIKey;
+var accessControl = document.location.href
+console.log(window.location.href)
+console.log(document.location.href)
+
 //Initialize floating action button for light and dark mode
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.fixed-action-btn');
@@ -16,30 +30,33 @@ document.addEventListener('DOMContentLoaded', function() {
 //Button Click handler
 //ajax call to apis
 //BZ's
-var travelTimeAppID = 'd79f2509';
-var travelTimeAPIKey = 'd91d9d1769d69892e29274e1ed792097';
+// var travelTimeAppID = 'd79f2509';
+// var travelTimeAPIKey = 'd91d9d1769d69892e29274e1ed792097';
 
 // GS's
 // var travelTimeAppID = '1a8d3c90';
 // var travelTimeAPIKey = '59530f476afdb89ee3907bf314e7d611';
 
+//BZ's new api key
+var travelTimeAppID = "4af91d9e";
+var travelTimeAPIKey = "4ff0bccdbf55ab3a48d6c79aef2562e8";
 
-// //KCMO Coordinates: 39.0997° N, -94.5786° W
-// //Practicing Google  Map API call Line 19-24
-// var discomfortMap;
-// function initMap() {
-//     var mapOpts = {
-//         center: { lat: 39.0997, lng: -94.5786 },
-//         zoom: 8,
-//     };
-//     discomfortMap = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
-//     var location0 = new google.maps.Marker({
-//         position: { lat: 39.0997, lng: -94.5786 },
-//         map: discomfortMap,
-//         title: 'Kansas City: Crown Town',
-//         animation: google.maps.Animation.DROP
-//     });
-// };
+//KCMO Coordinates: 39.0997° N, -94.5786° W
+//Practicing Google  Map API call Line 19-24
+var discomfortMap;
+function initMap() {
+    var mapOpts = {
+        center: { lat: 39.0997, lng: -94.5786 },
+        zoom: 8,
+    };
+    discomfortMap = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
+    var location0 = new google.maps.Marker({
+        position: { lat: 39.0997, lng: -94.5786 },
+        map: discomfortMap,
+        title: 'Kansas City: Crown Town',
+        animation: google.maps.Animation.DROP
+    });
+};
 
 
 
@@ -108,39 +125,29 @@ function initMap() {
     sendGeocodingRequest(startingLocation);
 }
 
-// The name of the starting location. We will have to geocode this to coordinates.
-var startingLocation = "London Waterloo Station";
-// The departure time in an ISO format.
-var departureTime = new Date().toJSON();
-// Travel time in seconds. We want 15 minutes travel time so it is 15 minutes x 60 seconds.
-var travelTime = 60 * 15;
-// These secret variables are needed to authenticate the request. Get them from http://docs.traveltimeplatform.com/overview/getting-keys/ and replace 
-
-var APPLICATION_ID = travelTimeAppID;
-var API_KEY = travelTimeAPIKey;
 
 
 // Sends the geocoding request.
-function sendGeocodingRequest(startingLocation) {
-    console.log('sendGeo started');
-    var request = {
-        query: startingLocation,
-    }
+// function sendGeocodingRequest(startingLocation) {
+//     console.log('sendGeo started');
+//     var request = {
+//         query: startingLocation,
+//     }
 
-    var header = {
-        'X-Application-Id': travelTimeAppID,
-        'X-Api-Key': travelTimeAPIKey,
-        "Accept-Language": "en-US",
-        "Access-Control-Allow-Origin": "127.0.0.1"
-    };
+//     var header = {
+//         'X-Application-Id': "4af91d9e",
+//         'X-Api-Key': "4ff0bccdbf55ab3a48d6c79aef2562e8",
+//         "Accept-Language": "en-US",
+//         "Access-Control-Allow-Origin": accessControl,
+//     };
 
-    $.ajax({
-        url: "http://api.traveltimeapp.com/v4/geocoding/search",
-        type: "GET",
-        headers: header,
-        data: request,
-    }).then(sendTimeMapRequest)
-};
+//     $.ajax({
+//         url: "http://api.traveltimeapp.com/v4/geocoding/search",
+//         type: "GET",
+//         headers: header,
+//         data: request,
+//     }).then(sendTimeMapRequest)
+// };
 
 // Sends the request of the Time Map multipolygon.
 function sendTimeMapRequest(geocodingResponse) {
@@ -166,10 +173,10 @@ function sendTimeMapRequest(geocodingResponse) {
     };
 
     var header = {
-        'X-Application-Id': travelTimeAppID,
-        'X-Api-Key': travelTimeAPIKey,
+        'X-Application-Id': "4af91d9e",
+        'X-Api-Key': "4ff0bccdbf55ab3a48d6c79aef2562e8",
         "Accept-Language": "en-US",
-        "Access-Control-Allow-Origin": "127.0.0.1"
+        "Access-Control-Allow-Origin": accessControl,
     };
 
     $.ajax({
@@ -202,44 +209,122 @@ function sendTimeMapRequest(geocodingResponse) {
         polygon.setMap(map);
         map.fitBounds(polygon.getBounds())
 
-        var header = {
-            'X-Application-Id': travelTimeAppID,
-            'X-Api-Key': travelTimeAPIKey,
-            "Accept-Language": "en-US",
-            "Access-Control-Allow-Origin": "127.0.0.1"
-        };
+        // var header = {
+        //     'X-Application-Id': travelTimeAppID,
+        //     'X-Api-Key': travelTimeAPIKey,
+        //     "Accept-Language": "en-US",
+        //     "Access-Control-Allow-Origin": accessControl
+        // };
 
-        $.ajax({
-            url: "http://api.traveltimeapp.com/v4/geocoding/search",
-            type: "GET",
-            headers: header,
-            data: request,
-        }).then(sendTimeMapRequest)
+        // $.ajax({
+        //     url: "http://api.traveltimeapp.com/v4/geocoding/search",
+        //     type: "GET",
+        //     headers: header,
+        //     data: request,
+        // }).then(sendTimeMapRequest)
 
-        // Draws the resulting multipolygon from the response on the map.
-        function drawTimeMap(response) {
+        // // Draws the resulting multipolygon from the response on the map.
+        // function drawTimeMap(response) {
 
-            // Reference for the response: http://docs.traveltimeplatform.com/reference/time-map/#response-body-json-attributes
+        //     // Reference for the response: http://docs.traveltimeplatform.com/reference/time-map/#response-body-json-attributes
 
-            var paths = response.results[0].shapes.map(function (polygon) {
-                var shell = polygon.shell
-                var holes = polygon.holes
-                return [shell].concat(holes);
-            }).map(x => x[0]);
+        //     var paths = response.results[0].shapes.map(function (polygon) {
+        //         var shell = polygon.shell
+        //         var holes = polygon.holes
+        //         return [shell].concat(holes);
+        //     }).map(x => x[0]);
 
-            var polygon = new google.maps.Polygon({
-                paths,
-                strokeColor: "#F5A623",
-                strokeOpacity: 1,
-                strokeWeight: 5,
-                fillColor: "#46461F",
-                fillOpacity: 0.25
-            });
-            polygon.setMap(map);
-            map.fitBounds(polygon.getBounds())
+        //     var polygon = new google.maps.Polygon({
+        //         paths,
+        //         strokeColor: "#F5A623",
+        //         strokeOpacity: 1,
+        //         strokeWeight: 5,
+        //         fillColor: "#46461F",
+        //         fillOpacity: 0.25
+        //     });
+        //     polygon.setMap(map);
+        //     map.fitBounds(polygon.getBounds())
 
         };
     }
-};
+// };
 
-
+var exampleLatLongArray =  [
+    {
+      "shell": [
+        {
+          "lat": 51.516246,
+          "lng": -0.14439687999999948
+        },
+        {
+          "lat": 51.51714528,
+          "lng": -0.14349759999999945
+        },
+        {
+          "lat": 51.51804456,
+          "lng": -0.14349759999999945
+        },
+        {
+          "lat": 51.5184942,
+          "lng": -0.14304795999999942
+        },
+        {
+          "lat": 51.51714528,
+          "lng": -0.1416990399999994
+        },
+        {
+          "lat": 51.516246,
+          "lng": -0.1416990399999994
+        },
+        {
+          "lat": 51.51489708,
+          "lng": -0.14035011999999936
+        },
+        {
+          "lat": 51.515796359999996,
+          "lng": -0.13945083999999933
+        },
+        {
+          "lat": 51.515796359999996,
+          "lng": -0.1385515599999993
+        },
+        {
+          "lat": 51.51534672,
+          "lng": -0.13810191999999927
+        },
+        {
+          "lat": 51.51444744,
+          "lng": -0.13810191999999927
+        },
+        {
+          "lat": 51.5139978,
+          "lng": -0.13765227999999927
+        },
+        {
+          "lat": 51.51669564,
+          "lng": -0.13495443999999918
+        },
+        {
+          "lat": 51.51669564,
+          "lng": -0.13315587999999912
+        },
+        {
+          "lat": 51.51714528,
+          "lng": -0.13270623999999911
+        },
+        {
+          "lat": 51.51804456,
+          "lng": -0.13360551999999914
+        },
+        {
+          "lat": 51.51984312,
+          "lng": -0.13360551999999914
+        },
+        {
+          "lat": 51.52029276,
+          "lng": -0.13315587999999912
+        },
+        {
+          "lat": 51.52029276,
+          "lng": -0.13225659999999909
+        }]
