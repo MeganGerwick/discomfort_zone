@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 //Initialize dropdown menu for mode of transport
-$(document).ready(function(){
-  $('select').formSelect();
-});
-
+var instance = M.FormSelect.getInstance(elem);
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, options);
+  });
 //Button Click handler
 //ajax call to apis
 
