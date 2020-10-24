@@ -5,8 +5,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.FloatingActionButton.init(elems, {
         direction: 'left'
     });
-});
+  });
 
+//Initialize dropdown menu for mode of transport
+var instance = M.FormSelect.getInstance(elem);
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, options);
+  });
 //Button Click handler
 //ajax call to apis
 //BZ's
@@ -42,9 +48,6 @@ var travelTimeAPIKey = 'd91d9d1769d69892e29274e1ed792097';
 //Add clickable results to webpage or copy address (if everything else is done)
 
 //Dark and Light mode in local storage
-
-// Default User coordinates if none chosen or provided by browser
-// KCMO
 var userLat = 39.0997;
 var userLong = -94.5786;
 
@@ -68,7 +71,6 @@ function showPosition(position) {
 };
 
 getBrowserLocation();
-
 // "Working" API calls 
 
 var map;
@@ -118,7 +120,7 @@ var APPLICATION_ID = travelTimeAppID;
 var API_KEY = travelTimeAPIKey;
 
 
-Sends the geocoding request.
+// Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
     console.log('sendGeo started');
     var request = {
@@ -200,7 +202,44 @@ function sendTimeMapRequest(geocodingResponse) {
         polygon.setMap(map);
         map.fitBounds(polygon.getBounds())
 
-    };
+        var header = {
+            'X-Application-Id': travelTimeAppID,
+            'X-Api-Key': travelTimeAPIKey,
+            "Accept-Language": "en-US",
+            "Access-Control-Allow-Origin": "127.0.0.1"
+        };
+
+        $.ajax({
+            url: "http://api.traveltimeapp.com/v4/geocoding/search",
+            type: "GET",
+            headers: header,
+            data: request,
+        }).then(sendTimeMapRequest)
+
+        // Draws the resulting multipolygon from the response on the map.
+        function drawTimeMap(response) {
+
+            // Reference for the response: http://docs.traveltimeplatform.com/reference/time-map/#response-body-json-attributes
+
+            var paths = response.results[0].shapes.map(function (polygon) {
+                var shell = polygon.shell
+                var holes = polygon.holes
+                return [shell].concat(holes);
+            }).map(x => x[0]);
+
+            var polygon = new google.maps.Polygon({
+                paths,
+                strokeColor: "#F5A623",
+                strokeOpacity: 1,
+                strokeWeight: 5,
+                fillColor: "#46461F",
+                fillOpacity: 0.25
+            });
+            polygon.setMap(map);
+            map.fitBounds(polygon.getBounds())
+
+        };
+    }
 };
 
 
