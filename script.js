@@ -21,21 +21,29 @@ var TRANSPORTATION_TYPE = 'driving';
 // For testing without making API calls
 // var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
 
-// //Initialize floating action button for light and dark mode
-// document.addEventListener('DOMContentLoaded', function () {
-//   var elems = document.querySelectorAll('.fixed-action-btn');
-//   // M. has something to do with materialize
-//   var instances = M.FloatingActionButton.init(elems, {
-//     direction: 'left'
-//   });
-// });
 
-// //Initialize dropdown menu for mode of transport
-// var instance = M.FormSelect.getInstance(elem);
-// document.addEventListener('DOMContentLoaded', function () {
-//   var elems = document.querySelectorAll('select');
-//   var instances = M.FormSelect.init(elems, options);
-// });
+//Initialize floating action button for light and dark mode
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  var instances = M.FloatingActionButton.init(elems, {
+    direction: 'left',
+    hoverEnabled: true
+  });
+});
+
+// //Initialize dropdown menu for Travel Time
+var instance = M.FormSelect.getInstance(elem);
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('select');
+  instances = M.FormSelect.init(elems,
+    autoTrigger, true,
+    closeOnClick, true,
+    hover, true,
+    constrainWidth, true,
+  );
+});
+//Event Listner for Search Button to begin Geocoding Request
+// $("#searchbutton").click(function () {
 
 //Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
@@ -199,3 +207,4 @@ function initMap() {
   }
   sendGeocodingRequest(startingLocation);
 }
+})

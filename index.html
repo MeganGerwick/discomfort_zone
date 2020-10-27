@@ -13,8 +13,7 @@
   <link type="text/css" rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
 
-<<<<<<< HEAD
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <<<<<<< HEAD <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Google Maps API Source with Biaka's API KEY : JQuery *Moved this to BODY for now -BZ* -->
   <!-- <script
@@ -22,8 +21,8 @@
           async defer>
         </script> -->
 
-=======
->>>>>>> development
+  =======
+  >>>>>>> development
   <!-- Google Map JQuery Itself -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
   </script>
@@ -32,9 +31,13 @@
 
 </head>
 <div class="container">
-  <header>
-    <p><img id="logo" src="assets/discomfortzone.PNG" alt="Discomfort Zone logo"></img></p>
-  </header>
+  <div class="row">
+    <div class="col s12">
+      <header>
+        <p><img id="logo" src="assets/discomfortzone.PNG" alt="Discomfort Zone logo"></img></p>
+      </header>
+    </div>
+  </div>
 </div>
 <!-- Main Body of Discomfort Zone -->
 
@@ -54,24 +57,26 @@
       </div>
     </div>
 
-    <!-- Input Location, Time, and Mode of Transportation for Travel -->
+    <!-- Input Location, time for Travel -->
     <div class="row">
-      <div class="col s3 m2 l2">
-        <h6>Starting location</h6>
+      <div class="col s4">
+        <h6>Starting location street address</h6>
         <input type="text" id="locationInput"></input>
       </div>
-      <div class="col s3 m2 l2">
+      <div class="col s4">
         <h6>How far will you travel?</h6>
-        <input type="text" id="timeInput"></input>
-      </div>
-      <div class="input-field col s3">
-        <select>
-          <option value="" disabled selected>Choose your option</option>
-          <option value="1">Car</option>
-          <option value="2">Public Transport</option>
-          <option value="3">Walk</option>
-          <option value="4">Bike</option>
-        </select>
+        <!-- Dropdown Trigger -->
+        <a class='dropdown-trigger btn' href='#' data-target='travelTime'>Options
+        </a>
+
+        <!-- Dropdown Structure -->
+        <ul id='travelTime' class='dropdown-content'>
+          <li><a href="#!">30 minutes</a></li>
+          <li><a href="#!">1 hour</a></li>
+          <li class="divider" tabindex="-1"></li>
+          <li><a href="#!">2 hours</a></li>
+          <li><a href="#!">3 hours</a></li>
+        </ul>
       </div>
       <div class="col s3 m2 l2">
         <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
@@ -117,10 +122,8 @@
   <script type="text/javascript" src="./assets/materialize.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="./script.js"></script>
-  <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4"
-  async defer>
-</script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeGy35_4zXgstVTJqKmd5KPL7nWjW3PE4" async defer>
+  </script>
 
 </body>
 
