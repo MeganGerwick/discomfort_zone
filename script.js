@@ -5,6 +5,7 @@ var accessControl = document.location.href;
 var TRAVEL_TIME_API_KEY = '4ff0bccdbf55ab3a48d6c79aef2562e8';
 var TRAVEL_TIME_APP_ID = '4af91d9e';
 var TOMTOM_API_KEY = 'AhFit0MPeBaiAJcBaFEcJUDHZXcGpeZ7';
+var NUMBER_OF_SEARCH_RESULTS = 5;
 
 
 // This will be from an input
@@ -19,7 +20,7 @@ var travelTime = 60 * 30; // 30 mins
 var TRANSPORTATION_TYPE = 'driving';
 
 // For testing without making API calls
-// var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
+var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
 
 
 //Initialize floating action button for light and dark mode
@@ -106,54 +107,68 @@ function sendTimeMapRequest(geocodingResponse) {
   }).then(function (res) {
     // Perimeter of time map shape 
     perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
-    // TO DO - TomTom loop function
-    console.log(res);
-  })
-}
+    // Search for points of interest along the perimeter
+    searchPerimeter(perimeterCoordsArr);
+  });
+};
 
+// Takes an array of coordinates and returns an array of points of interest
 function searchPerimeter(coordArray) {
 
   resultsArr = [];
 
-  // Change this to while resultsArr.length <10
-  for (var i = 0; i < 10; i++) {
+  // Keep adding objects to resultsArr until there are NUMBER_OF_SEARCH_RESULTS
+  //while (resultsArr.length < NUMBER_OF_SEARCH_RESULTS) 
+  for (var i = 0 ; i < NUMBER_OF_SEARCH_RESULTS; i++) {
     // Random number between 0 and array length
     var randomInt = Math.floor(Math.random() * coordArray.length)
-
-    // lat lon variables from 
+    // lat lon variables for query
     var lat = coordArray[randomInt]['lat'];
     var lon = coordArray[randomInt]['lng'];
 
-    // console.log("lat: " + lat);
-    // console.log("lon: " + lon);
-    tomTomFuzzyQuery(lat, lon);
-    // If this is a unique result
-  }
+    // TomTom fuzzy search
+    // https://<baseURL>/search/<versionNumber>/search/<query>.<ext>?
+    var searchQuery = 'restaurant';
+    var baseURL = 'https://api.tomtom.com/search/2/search/' + searchQuery + '.json?';
+    var key = '&key=' + TOMTOM_API_KEY;
+    var limit = '&limit=2';
+    var lat = '&lat=' + lat;
+    var lon = '&lon=' + lon;
+    var radius = '&radius=2000';
+    var id = '&idx';
+    var urlSet = 'Set=POI';
+    var category = '&categorySet=7315';
+    var openinghours = '&openingHours=nextSevenDays';
 
-}
+    var queryURL = baseURL + key + limit + lat + lon + radius + id + urlSet + category + openinghours;
 
-function tomTomFuzzyQuery(latIn, lonIn) {
-  // https://<baseURL>/search/<versionNumber>/search/<query>.<ext>?
-  var searchQuery = 'restaurant';
-  var baseURL = 'https://api.tomtom.com/search/2/search/' + searchQuery + '.json?';
-  var key = '&key=' + TOMTOM_API_KEY;
-  var limit = '&limit=2';
-  var lat = '&lat=' + latIn;
-  var lon = '&lon=' + lonIn;
-  var radius = '&radius=2000';
-  var id = '&idx';
-  var urlSet = 'Set=POI';
-  var category = '&categorySet=7315';
-  var openinghours = '&openingHours=nextSevenDays';
+    $.ajax({
+      url: queryURL,
+      type: "GET",
+    }).then(function (res) {
+      // return object for searchPerimeter function
+      var tomTomResultObj = {
+        name: res['results'][0]['poi']['name'],
+        address: res['results'][0]['address']['freeformAddress'],
+        rating: '',
+      }
 
-  var queryURL = baseURL + key + limit + lat + lon + radius + id + urlSet + category + openinghours;
+      console.log("tomTomResultObj: " + tomTomResultObj);
 
-  $.ajax({
-    url: queryURL,
-    type: "GET",
-  }).then(function (res) {
-    console.log(res);
-  });
+      if (!(resultsArr[0])) {
+        if (!(resultsArr.some(function (obj) {
+          return obj.name === tomTomResultObj.name
+        }))) {
+          // Add tomtomObj to resultsArr
+          resultsArr.push(tomTomResultObj)
+        };
+      } else {
+        resultsArr.push(tomTomResultObj)
+      };
+    });
+  };
+  console.log("ResultArr: " + resultsArr);
+  return resultsArr;
 };
 
 // Get user location data 
@@ -206,5 +221,4 @@ function initMap() {
     }
   }
   sendGeocodingRequest(startingLocation);
-}
-})
+};
