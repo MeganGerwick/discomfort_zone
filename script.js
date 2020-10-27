@@ -2,8 +2,12 @@ var map;
 var accessControl = document.location.href;
 
 // Variables for Travel Time
-var TRAVEL_TIME_API_KEY = '4ff0bccdbf55ab3a48d6c79aef2562e8';
-var TRAVEL_TIME_APP_ID = '4af91d9e';
+// GS - '59530f476afdb89ee3907bf314e7d611'
+// Bz - '4ff0bccdbf55ab3a48d6c79aef2562e8'
+var TRAVEL_TIME_API_KEY = '59530f476afdb89ee3907bf314e7d611';
+// GS - '1a8d3c90'
+// BZ - '4af91d9e'
+var TRAVEL_TIME_APP_ID = '1a8d3c90';
 var TOMTOM_API_KEY = 'AhFit0MPeBaiAJcBaFEcJUDHZXcGpeZ7';
 var NUMBER_OF_SEARCH_RESULTS = 5;
 
@@ -119,7 +123,7 @@ function searchPerimeter(coordArray) {
 
   // Keep adding objects to resultsArr until there are NUMBER_OF_SEARCH_RESULTS
   //while (resultsArr.length < NUMBER_OF_SEARCH_RESULTS) 
-  for (var i = 0 ; i < NUMBER_OF_SEARCH_RESULTS; i++) {
+  for (var i = 0; i < NUMBER_OF_SEARCH_RESULTS; i++) {
     // Random number between 0 and array length
     var randomInt = Math.floor(Math.random() * coordArray.length)
     // lat lon variables for query
@@ -146,28 +150,33 @@ function searchPerimeter(coordArray) {
       url: queryURL,
       type: "GET",
     }).then(function (res) {
-      // return object for searchPerimeter function
-      var tomTomResultObj = {
-        name: res['results'][0]['poi']['name'],
-        address: res['results'][0]['address']['freeformAddress'],
-        rating: '',
+      // Object to add to return object {name: '', address: '', rating: ''}
+      // console.log("Res: " + JSON.stringify(res));
+      var tomTomResultObj;
+      // If there is a usable response
+      if (res['results'][0]) {
+        tomTomResultObj = {
+          name: res['results'][0]['poi']['name'],
+          address: res['results'][0]['address']['freeformAddress'],
+          rating: '',
+        }
       }
 
-      console.log("tomTomResultObj: " + tomTomResultObj);
+      // console.log("tomTomResultObj: " + tomTomResultObj);
 
-      if (!(resultsArr[0])) {
+      if (!(resultsArr[0]) && tomTomResultObj) {
         if (!(resultsArr.some(function (obj) {
           return obj.name === tomTomResultObj.name
         }))) {
           // Add tomtomObj to resultsArr
           resultsArr.push(tomTomResultObj)
         };
-      } else {
+      } else if (tomTomResultObj) {
         resultsArr.push(tomTomResultObj)
       };
     });
   };
-  console.log("ResultArr: " + resultsArr);
+  // console.log("ResultArr: " + JSON.stringify(resultsArr));
   return resultsArr;
 };
 
