@@ -1,206 +1,198 @@
+var map;
+var accessControl = document.location.href;
+
+// Variables for Travel Time
+var TRAVEL_TIME_API_KEY = '4ff0bccdbf55ab3a48d6c79aef2562e8';
+var TRAVEL_TIME_APP_ID = '4af91d9e';
+
+// This will be from an input
+var startingLocation = "Kansas City"
+var KC_LAT = "39.0997";
+var KC_LON = "-94.5786";
+// The departure time in an ISO format.
+var departureTime = new Date().toJSON();
+// Travel time in seconds 
+var travelTime = 60 * 30; // 30 mins
+// Mode of travel
+var TRANSPORTATION_TYPE = 'driving';
+
+// For testing without making API calls
+// var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
+
 //Initialize floating action button for light and dark mode
 document.addEventListener('DOMContentLoaded', function () {
-    var elems = document.querySelectorAll('.fixed-action-btn');
-    // M. has something to do with materialize
-    var instances = M.FloatingActionButton.init(elems, {
-        direction: 'left'
-    });
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  // M. has something to do with materialize
+  var instances = M.FloatingActionButton.init(elems, {
+    direction: 'left'
+  });
 });
 
-//Button Click handler
-//ajax call to apis
-//BZ's
-var travelTimeAppID = 'd79f2509';
-var travelTimeAPIKey = 'd91d9d1769d69892e29274e1ed792097';
+//Initialize dropdown menu for mode of transport
+var instance = M.FormSelect.getInstance(elem);
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('select');
+  var instances = M.FormSelect.init(elems, options);
+});
 
-// GS's
-// var travelTimeAppID = '1a8d3c90';
-// var travelTimeAPIKey = '59530f476afdb89ee3907bf314e7d611';
+//Sends the geocoding request.
+function sendGeocodingRequest(startingLocation) {
+  var request = {
+    query: startingLocation,
+  }
 
+  var geocodingHeader = {
+    'X-Application-Id': TRAVEL_TIME_APP_ID,
+    'X-Api-Key': TRAVEL_TIME_API_KEY,
+    "Accept-Language": "en-US",
+    "focus.lat": KC_LAT,
+    "focus.lng": KC_LON,
+    //"Access-Control-Allow-Origin": accessControl,
+  };
 
-// //KCMO Coordinates: 39.0997° N, -94.5786° W
-// //Practicing Google  Map API call Line 19-24
-// var discomfortMap;
-// function initMap() {
-//     var mapOpts = {
-//         center: { lat: 39.0997, lng: -94.5786 },
-//         zoom: 8,
-//     };
-//     discomfortMap = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
-//     var location0 = new google.maps.Marker({
-//         position: { lat: 39.0997, lng: -94.5786 },
-//         map: discomfortMap,
-//         title: 'Kansas City: Crown Town',
-//         animation: google.maps.Animation.DROP
-//     });
-// };
+  $.ajax({
+    url: "http://api.traveltimeapp.com/v4/geocoding/search",
+    type: "GET",
+    headers: geocodingHeader,
+    data: request,
+  }).then(sendTimeMapRequest)
+};
 
+// Sends the request for the Time Map multipolygon.
+function sendTimeMapRequest(geocodingResponse) {
+  // The request for Time Map. 
+  // Reference: http://docs.traveltimeplatform.com/reference/time-map/
+  var coords = geocodingResponse.features[0].geometry.coordinates;
+  var latLng = { lat: coords[1], lng: coords[0] };
 
+  var request = {
+    departure_searches: [{
+      id: "first_location",
+      coords: latLng,
+      transportation: {
+        type: TRANSPORTATION_TYPE
+      },
 
-//Render map
-//Render search results
-//Add clickable results to webpage or copy address (if everything else is done)
+      departure_time: departureTime,
+      travel_time: travelTime
+    }],
 
-//Dark and Light mode in local storage
+    arrival_searches: []
+  };
 
-// Default User coordinates if none chosen or provided by browser
-// KCMO
-var userLat = 39.0997;
-var userLong = -94.5786;
+  var timeMapHeader = {
+    'X-Application-Id': TRAVEL_TIME_APP_ID,
+    'X-Api-Key': TRAVEL_TIME_API_KEY,
+    "Accept-Language": "en-US",
+    //"Access-Control-Allow-Origin": accessControl,
+  };
+
+  $.ajax({
+    url: "https://api.traveltimeapp.com/v4/time-map",
+    type: "POST",
+    headers: timeMapHeader,
+    data: JSON.stringify(request),
+    contentType: "application/json; charset=UTF-8",
+  }).then(function (res) {
+    // Perimeter to search with TomTom
+    perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
+    // TomTom loop function
+  })
+}
+
+function searchPerimeter(coordArray) {
+
+  resultsArr = [];
+
+  // Change this to while resultsArr.length <10
+  for (var i = 0; i < 10; i++) {
+    // Random number between 0 and array length
+    var randomInt = Math.floor(Math.random() * coordArray.length)
+
+    // lat lon variables from 
+    var lat = coordArray[randomInt]['lat'];
+    var lon = coordArray[randomInt]['lng'];
+
+    // console.log("lat: " + lat);
+    // console.log("lon: " + lon);
+    tomTomFuzzyQuery(lat, lon);
+    // If this is a unique result
+  }
+
+}
+
+function tomTomFuzzyQuery(latIn, lonIn) {
+  // https://<baseURL>/search/<versionNumber>/search/<query>.<ext>?
+  var searchQuery = 'restaurant';
+  var baseURL = 'https://api.tomtom.com/search/2/search/' + searchQuery + '.json?';
+  var key = '&key=' + TOMTOM_API_KEY;
+  var limit = '&limit=2';
+  var lat = '&lat=' + latIn;
+  var lon = '&lon=' + lonIn;
+  var radius = '&radius=2000';
+  var id = '&idx';
+  var urlSet = 'Set=POI';
+  var category = '&categorySet=7315';
+  var openinghours = '&openingHours=nextSevenDays';
+
+  var queryURL = baseURL + key + limit + lat + lon + radius + id + urlSet + category + openinghours;
+
+  $.ajax({
+    url: queryURL,
+    type: "GET",
+  }).then(function (res) {
+    console.log(res);
+  });
+};
 
 // Get user location data 
 function getBrowserLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Get Browser Location error");
-    };
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    console.log("Get Browser Location error");
+  };
 };
 
 // Handler for location data
 function showPosition(position) {
-    // User latitude
-    userLat = position.coords.latitude;
-    console.log("browser lat: " + position.coords.latitude);
-    // User longtude
-    userLong = position.coords.longitude;
-    console.log("browser long: " + position.coords.longitude);
+  // User latitude
+  userLat = position.coords.latitude;
+  console.log("browser lat: " + position.coords.latitude);
+  // User longtude
+  userLong = position.coords.longitude;
+  console.log("browser long: " + position.coords.longitude);
 };
 
-getBrowserLocation();
-
-// "Working" API calls 
-
-var map;
 // Googe Maps API
 function initMap() {
-    var mapOpts = {
-        center: { lat: 39.0997, lng: -94.5786 },
-        zoom: 13,
-    };
+  var mapOpts = {
+    center: { lat: KC_LAT, lng: KC_LON },
+    zoom: 13,
+  };
 
-    map = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
+  map = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
+  // Is this copied from somewhere? Where do lat/lon come from?
+  var location0 = new google.maps.Marker({
+    position: { lat: KC_LAT, lng: KC_LON },
+    map: map,
+    title: 'Kansas City',
+    animation: google.maps.Animation.DROP
+  });
 
-    var marker0 = new google.maps.Marker({
-        position: { lat: 51.5031653, lng: -0.1123051 },
-        map: map,
-        title: 'London Waterloo train station',
-        animation: google.maps.Animation.DROP
-    });
-
-    if (!google.maps.Polygon.prototype.getBounds) {
-        google.maps.Polygon.prototype.getBounds = function () {
-            var bounds = new google.maps.LatLngBounds();
-            var paths = this.getPaths();
-            var path;
-            for (var i = 0; i < paths.getLength(); i++) {
-                path = paths.getAt(i);
-                for (var ii = 0; ii < path.getLength(); ii++) {
-                    bounds.extend(path.getAt(ii));
-                }
-            }
-            return bounds;
+  if (!google.maps.Polygon.prototype.getBounds) {
+    google.maps.Polygon.prototype.getBounds = function () {
+      var bounds = new google.maps.LatLngBounds();
+      var paths = this.getPaths();
+      var path;
+      for (var i = 0; i < paths.getLength(); i++) {
+        path = paths.getAt(i);
+        for (var ii = 0; ii < path.getLength(); ii++) {
+          bounds.extend(path.getAt(ii));
         }
+      }
+      return bounds;
     }
-    console.log("Starting location: " + startingLocation);
-    sendGeocodingRequest(startingLocation);
+  }
+  sendGeocodingRequest(startingLocation);
 }
-
-// The name of the starting location. We will have to geocode this to coordinates.
-var startingLocation = "London Waterloo Station";
-// The departure time in an ISO format.
-var departureTime = new Date().toJSON();
-// Travel time in seconds. We want 15 minutes travel time so it is 15 minutes x 60 seconds.
-var travelTime = 60 * 15;
-// These secret variables are needed to authenticate the request. Get them from http://docs.traveltimeplatform.com/overview/getting-keys/ and replace 
-
-var APPLICATION_ID = travelTimeAppID;
-var API_KEY = travelTimeAPIKey;
-
-
-Sends the geocoding request.
-function sendGeocodingRequest(startingLocation) {
-    console.log('sendGeo started');
-    var request = {
-        query: startingLocation,
-    }
-
-    var header = {
-        'X-Application-Id': travelTimeAppID,
-        'X-Api-Key': travelTimeAPIKey,
-        "Accept-Language": "en-US",
-        "Access-Control-Allow-Origin": "127.0.0.1"
-    };
-
-    $.ajax({
-        url: "http://api.traveltimeapp.com/v4/geocoding/search",
-        type: "GET",
-        headers: header,
-        data: request,
-    }).then(sendTimeMapRequest)
-};
-
-// Sends the request of the Time Map multipolygon.
-function sendTimeMapRequest(geocodingResponse) {
-    console.log('inside sendTimeMapRequest');
-    // The request for Time Map. Reference: http://docs.traveltimeplatform.com/reference/time-map/
-    var coords = geocodingResponse.features[0].geometry.coordinates;
-    var latLng = { lat: coords[1], lng: coords[0] };
-
-    var request = {
-        departure_searches: [{
-            id: "first_location",
-            coords: latLng,
-            transportation: {
-                // Task - Get this from user 
-                type: "public_transport"
-            },
-
-            departure_time: departureTime,
-            travel_time: travelTime
-        }],
-
-        arrival_searches: []
-    };
-
-    var header = {
-        'X-Application-Id': travelTimeAppID,
-        'X-Api-Key': travelTimeAPIKey,
-        "Accept-Language": "en-US",
-        "Access-Control-Allow-Origin": "127.0.0.1"
-    };
-
-    $.ajax({
-        url: "https://api.traveltimeapp.com/v4/time-map",
-        type: "POST",
-        headers: header,
-        data: JSON.stringify(request),
-        contentType: "application/json; charset=UTF-8",
-    }).then(drawTimeMap)
-
-    // Draws the resulting multipolygon from the response on the map.
-    function drawTimeMap(response) {
-        console.log(response);
-        // Reference for the response: http://docs.traveltimeplatform.com/reference/time-map/#response-body-json-attributes
-
-        var paths = response.results[0].shapes.map(function (polygon) {
-            var shell = polygon.shell
-            var holes = polygon.holes
-            return [shell].concat(holes);
-        }).map(x => x[0]);
-
-        var polygon = new google.maps.Polygon({
-            paths,
-            strokeColor: "#F5A623",
-            strokeOpacity: 1,
-            strokeWeight: 5,
-            fillColor: "#46461F",
-            fillOpacity: 0.25
-        });
-        polygon.setMap(map);
-        map.fitBounds(polygon.getBounds())
-
-    };
-};
-
-
