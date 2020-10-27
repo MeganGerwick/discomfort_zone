@@ -4,6 +4,8 @@ var accessControl = document.location.href;
 // Variables for Travel Time
 var TRAVEL_TIME_API_KEY = '4ff0bccdbf55ab3a48d6c79aef2562e8';
 var TRAVEL_TIME_APP_ID = '4af91d9e';
+var TOMTOM_API_KEY = 'AhFit0MPeBaiAJcBaFEcJUDHZXcGpeZ7';
+
 
 // This will be from an input
 var startingLocation = "Kansas City"
@@ -19,21 +21,21 @@ var TRANSPORTATION_TYPE = 'driving';
 // For testing without making API calls
 // var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
 
-//Initialize floating action button for light and dark mode
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('.fixed-action-btn');
-  // M. has something to do with materialize
-  var instances = M.FloatingActionButton.init(elems, {
-    direction: 'left'
-  });
-});
+// //Initialize floating action button for light and dark mode
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('.fixed-action-btn');
+//   // M. has something to do with materialize
+//   var instances = M.FloatingActionButton.init(elems, {
+//     direction: 'left'
+//   });
+// });
 
-//Initialize dropdown menu for mode of transport
-var instance = M.FormSelect.getInstance(elem);
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('select');
-  var instances = M.FormSelect.init(elems, options);
-});
+// //Initialize dropdown menu for mode of transport
+// var instance = M.FormSelect.getInstance(elem);
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('select');
+//   var instances = M.FormSelect.init(elems, options);
+// });
 
 //Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
@@ -47,7 +49,7 @@ function sendGeocodingRequest(startingLocation) {
     "Accept-Language": "en-US",
     "focus.lat": KC_LAT,
     "focus.lng": KC_LON,
-    //"Access-Control-Allow-Origin": accessControl,
+    "Access-Control-Allow-Origin": accessControl,
   };
 
   $.ajax({
@@ -84,7 +86,7 @@ function sendTimeMapRequest(geocodingResponse) {
     'X-Application-Id': TRAVEL_TIME_APP_ID,
     'X-Api-Key': TRAVEL_TIME_API_KEY,
     "Accept-Language": "en-US",
-    //"Access-Control-Allow-Origin": accessControl,
+    "Access-Control-Allow-Origin": accessControl,
   };
 
   $.ajax({
@@ -94,9 +96,10 @@ function sendTimeMapRequest(geocodingResponse) {
     data: JSON.stringify(request),
     contentType: "application/json; charset=UTF-8",
   }).then(function (res) {
-    // Perimeter to search with TomTom
+    // Perimeter of time map shape 
     perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
-    // TomTom loop function
+    // TO DO - TomTom loop function
+    console.log(res);
   })
 }
 
