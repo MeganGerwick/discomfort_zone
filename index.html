@@ -34,7 +34,9 @@
   <div class="row">
     <div class="col s12">
       <header>
-        <p><img id="logo" src="assets/discomfortzone.PNG" alt="Discomfort Zone logo"></img></p>
+
+        <img id="logo" src="assets/discomfortzone.PNG" alt="Discomfort Zone logo" style="align-content: center"></img>
+
       </header>
     </div>
   </div>
@@ -51,19 +53,19 @@
           <i class="large material-icons">visibility</i>
         </a>
         <ul>
-          <li><a class="btn-floating green lighten-4"><i class="material-icons">brightness_5</i></a></li>
-          <li><a class="btn-floating green darken-4"><i class="material-icons">brightness_3</i></a></li>
+          <li><a id='lightmode' class="btn-floating green lighten-4"><i class="material-icons">brightness_5</i></a></li>
+          <li><a id='darkmode' class="btn-floating green darken-4"><i class="material-icons">brightness_3</i></a></li>
         </ul>
       </div>
     </div>
 
     <!-- Input Location, time for Travel -->
     <div class="row">
-      <div class="col s4">
+      <div class="col s4" style="text-align: center">
         <h6>Starting location street address</h6>
         <input type="text" id="locationInput"></input>
       </div>
-      <div class="col s4">
+      <div class="col s4" style="text-align: center">
         <h6>How far will you travel?</h6>
         <!-- Dropdown Trigger -->
         <a class='dropdown-trigger btn' href='#' data-target='travelTime'>Options
@@ -79,7 +81,8 @@
         </ul>
       </div>
       <div class="col s3 m2 l2">
-        <div class="waves-effect waves-light green lighten-1 btn"><i class="material-icons left">search</i>Search</div>
+        <div id="searchbutton" class="waves-effect waves-light green lighten-1 btn"><i
+            class="material-icons left">search</i>Search</div>
       </div>
     </div>
 
@@ -95,16 +98,19 @@
     <!-- Location Results Area     -->
 
     <div class="row">
-      <div class="col s12 m6">
+      <div class="col s12">
         <div class="card green lighten-1">
           <div class="card-content white-text">
-            <span class="card-title">Get Discomfortable!</span>
+            <span class="card-title" style="text-align: center">
+              <h4>Get Discomfortable!</h4>
+            </span>
             <table class="striped">
               <thead>
                 <tr>
                   <th>Restaurant</th>
                   <th>Rating</th>
                   <th>Address</th>
+                  <th>Add to favorites button?</th>
                 </tr>
               </thead>
               <tbody>
