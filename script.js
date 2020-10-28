@@ -74,7 +74,8 @@ $('#darkmode').click(function () {
 //Event Listner for Search Button to begin Geocoding Request
 $(".btn").click(function () {
   var startingLocation = $('#locationInput').val();
-  var userMinutes = $(self).val();
+  var userMinutes = parseInt($(self).val());
+  console.log(userMinutes);
   sendGeocodingRequest(startingLocation)
 })
 //Sends the geocoding request.
