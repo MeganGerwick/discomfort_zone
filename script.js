@@ -14,13 +14,15 @@ var NUMBER_OF_SEARCH_RESULTS = 5;
 
 
 // This will be from an input
-var startingLocation = $('#locationInput')
+var startingLocation = '';
 var KC_LAT = '39.0997';
 var KC_LON = '-94.5786';
 // The departure time in an ISO format.
 var departureTime = new Date().toJSON();
+//Set userMinutes variable
+var userMinutes;
 // Travel time in seconds 
-var travelTime = 60 * 30; // 30 mins
+var travelTime = 60 * userMinutes; // 30 mins
 // Mode of travel
 var TRANSPORTATION_TYPE = 'driving';
 
@@ -59,8 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 //Event Listner for Search Button to begin Geocoding Request
-// $("#searchbutton").click(function () {})
-
+$(".btn").click(function () {
+  var startingLocation = $('#locationInput').val();
+  var userMinutes = $(self).val();
+  sendGeocodingRequest(startingLocation)
+})
 //Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
   var request = {
@@ -276,3 +281,4 @@ function initMap() {
   }
   // sendGeocodingRequest(startingLocation);
 }
+
