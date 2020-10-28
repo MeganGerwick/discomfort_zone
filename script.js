@@ -1,7 +1,6 @@
 var map;
 var accessControl = document.location.href;
 
-
 // Variables for Travel Time
 // GS - '59530f476afdb89ee3907bf314e7d611'
 // Bz - '4ff0bccdbf55ab3a48d6c79aef2562e8'
@@ -25,6 +24,9 @@ var userMinutes;
 var travelTime = 60 * userMinutes; // 30 mins
 // Mode of travel
 var TRANSPORTATION_TYPE = 'driving';
+
+// jQuery DOM elements
+var $searchResultBody = $('#searchResultBody');
 
 // For testing without making API calls
 var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
@@ -200,7 +202,6 @@ function searchPerimeter(coordArray) {
       type: "GET",
     }).then(function (res) {
       // Object to add to return object {name: '', address: '', rating: ''}
-      // console.log("Res: " + JSON.stringify(res));
       var tomTomResultObj;
       // If there is a usable response
       if (res['results'][0]) {
@@ -227,6 +228,23 @@ function searchPerimeter(coordArray) {
   };
   // console.log("ResultArr: " + JSON.stringify(resultsArr));
   return resultsArr;
+};
+
+function renderSearchResults(resultArr) {
+  $searchResultBody.empty();
+
+  for (var i = 0; i < resultArr.length; i++) {
+      // Initialize result row
+      var $trow = $('<tr>');
+      // Populate table data
+      var $nameData = $('<td>').text(resultArr[i].name);
+      var $addressData = $('<td>').text(resultArr[i].address);
+      var $ratingeData = $('<td>').text(resultArr[i].rating);
+      // Append data to row
+      $trow.append($nameData,$addressData,$ratingeData);
+      // Append row to table
+      $searchResultBody.append($trow);
+  };
 };
 
 // Get user location data 
@@ -257,7 +275,6 @@ function initMap() {
   };
 
   map = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
-  // Is this copied from somewhere? Where do lat/lon come from?
   var location0 = new google.maps.Marker({
     position: new google.maps.LatLng(KC_LAT, KC_LON),
     map: map,
