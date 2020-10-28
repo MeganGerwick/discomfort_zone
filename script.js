@@ -1,6 +1,7 @@
 var map;
 var accessControl = document.location.href;
 
+
 // Variables for Travel Time
 // GS - '59530f476afdb89ee3907bf314e7d611'
 // Bz - '4ff0bccdbf55ab3a48d6c79aef2562e8'
@@ -14,8 +15,8 @@ var NUMBER_OF_SEARCH_RESULTS = 5;
 
 // This will be from an input
 var startingLocation = $('#locationInput')
-var KC_LAT = "39.0997";
-var KC_LON = "-94.5786";
+var KC_LAT = '39.0997';
+var KC_LON = '-94.5786';
 // The departure time in an ISO format.
 var departureTime = new Date().toJSON();
 // Travel time in seconds 
@@ -37,16 +38,26 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // //Initialize dropdown menu for Travel Time
-var instance = M.FormSelect.getInstance(elem);
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('select');
-  instances = M.FormSelect.init(elems,
-    autoTrigger, true,
-    closeOnClick, true,
-    hover, true,
-    constrainWidth, true,
-  );
-});
+// var instance = M.FormSelect.getInstance(elem);
+// // document.addEventListener('DOMContentLoaded', function () {
+// //   var elems = document.getElementById('#travelTime');
+// //   instances = M.FormSelect.init(elems, {
+// //     autoTrigger: true,
+// //     closeOnClick: true,
+// //     hover: true,
+// //     constrainWidth: true,
+// //   })
+// // })
+// $(document).ready(function () {
+//   $('#travelTime').modal();
+//   $('.dropdown-trigger btn').dropdown();
+// });
+// 
+// $(document).ready(function () {
+//   $('.modal').modal();
+//   $('.dropdown-trigger').dropdown();
+// });
+
 //Event Listner for Search Button to begin Geocoding Request
 // $("#searchbutton").click(function () {})
 
@@ -225,12 +236,13 @@ function getBrowserLocation() {
 // Handler for location data
 function showPosition(position) {
   // User latitude
-  userLat = position.coords.latitude;
-  console.log("browser lat: " + position.coords.latitude);
+  KC_LAT = position.coords.latitude;
+
   // User longtude
-  userLong = position.coords.longitude;
-  console.log("browser long: " + position.coords.longitude);
+  KC_LON = position.coords.longitude;
+
 };
+getBrowserLocation();
 
 // Googe Maps API
 function initMap() {
