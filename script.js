@@ -202,14 +202,14 @@ function showPosition(position) {
 // Googe Maps API
 function initMap() {
   var mapOpts = {
-    center: { lat: KC_LAT, lng: KC_LON },
+    center: new google.maps.LatLng(KC_LAT, KC_LON),
     zoom: 13,
   };
 
   map = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
   // Is this copied from somewhere? Where do lat/lon come from?
   var location0 = new google.maps.Marker({
-    position: { lat: KC_LAT, lng: KC_LON },
+    position: new google.maps.LatLng(KC_LAT, KC_LON),
     map: map,
     title: 'Kansas City',
     animation: google.maps.Animation.DROP
@@ -229,5 +229,5 @@ function initMap() {
       return bounds;
     }
   }
-  sendGeocodingRequest(startingLocation);
+  // sendGeocodingRequest(startingLocation);
 };
