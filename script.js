@@ -27,26 +27,26 @@ var TRANSPORTATION_TYPE = 'driving';
 var testArrayCoords = [{ "lat": 38.92685219705572, "lng": -95.1152423261992 }, { "lat": 38.92685219705572, "lng": -95.11753876963212 }, { "lat": 38.92775303136557, "lng": -95.11868699134857 }, { "lat": 38.930455534295106, "lng": -95.1152423261992 }, { "lat": 38.928653865675415, "lng": -95.11294588276628 }, { "lat": 38.928653865675415, "lng": -95.10376010903462 }];
 
 
-//Initialize floating action button for light and dark mode
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('.fixed-action-btn');
-  var instances = M.FloatingActionButton.init(elems, {
-    direction: 'left',
-    hoverEnabled: true
-  });
-});
+// //Initialize floating action button for light and dark mode
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('.fixed-action-btn');
+//   var instances = M.FloatingActionButton.init(elems, {
+//     direction: 'left',
+//     hoverEnabled: true
+//   });
+// });
 
-// //Initialize dropdown menu for Travel Time
-var instance = M.FormSelect.getInstance(elem);
-document.addEventListener('DOMContentLoaded', function () {
-  var elems = document.querySelectorAll('select');
-  instances = M.FormSelect.init(elems,
-    autoTrigger, true,
-    closeOnClick, true,
-    hover, true,
-    constrainWidth, true,
-  );
-});
+// // //Initialize dropdown menu for Travel Time
+// var instance = M.FormSelect.getInstance(elem);
+// document.addEventListener('DOMContentLoaded', function () {
+//   var elems = document.querySelectorAll('select');
+//   instances = M.FormSelect.init(elems,
+//     autoTrigger, true,
+//     closeOnClick, true,
+//     hover, true,
+//     constrainWidth, true,
+//   );
+// });
 //Event Listner for Search Button to begin Geocoding Request
 // $("#searchbutton").click(function () {
 
@@ -202,14 +202,14 @@ function showPosition(position) {
 // Googe Maps API
 function initMap() {
   var mapOpts = {
-    center: { lat: KC_LAT, lng: KC_LON },
+    center: new google.maps.LatLng(KC_LAT, KC_LON),
     zoom: 13,
   };
 
   map = new google.maps.Map(document.getElementById('discomfortMap'), mapOpts);
   // Is this copied from somewhere? Where do lat/lon come from?
   var location0 = new google.maps.Marker({
-    position: { lat: KC_LAT, lng: KC_LON },
+    position: new google.maps.LatLng(KC_LAT, KC_LON),
     map: map,
     title: 'Kansas City',
     animation: google.maps.Animation.DROP
@@ -229,5 +229,5 @@ function initMap() {
       return bounds;
     }
   }
-  sendGeocodingRequest(startingLocation);
+  //sendGeocodingRequest(startingLocation);
 };
