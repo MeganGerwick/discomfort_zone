@@ -39,26 +39,37 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// //Initialize dropdown menu for Travel Time
-// var instance = M.FormSelect.getInstance(elem);
-// // document.addEventListener('DOMContentLoaded', function () {
-// //   var elems = document.getElementById('#travelTime');
-// //   instances = M.FormSelect.init(elems, {
-// //     autoTrigger: true,
-// //     closeOnClick: true,
-// //     hover: true,
-// //     constrainWidth: true,
-// //   })
-// // })
-// $(document).ready(function () {
-//   $('#travelTime').modal();
-//   $('.dropdown-trigger btn').dropdown();
-// });
-// 
-// $(document).ready(function () {
-//   $('.modal').modal();
-//   $('.dropdown-trigger').dropdown();
-// });
+//Event Listner for Light/Dark mode
+var lightMode = document.getElementById('#lightmode');
+var darkMode = document.getElementById('#darkmode');
+var mode = "light"
+localStorage.setItem('color mode', mode)
+
+$('#lightmode').click(function () {
+  if (mode === "dark") {
+    mode = "light";
+    $('#lightmode').removeClass('dark-mode')
+    localStorage.setItem('color mode', mode)
+  }
+  else {
+    mode = "dark";
+    $('#lightmode').addClass('dark-mode')
+    localStorage.setItem('color mode', mode)
+  }
+})
+
+$('#darkmode').click(function () {
+  if (mode === "light") {
+    mode = "dark";
+    $('#body').addClass('dark-mode')
+    localStorage.setItem('color mode', mode)
+  }
+  else {
+    mode = "light";
+    $('#body').removeClass('dark-mode')
+    localStorage.setItem('color mode', mode)
+  }
+})
 
 //Event Listner for Search Button to begin Geocoding Request
 $(".btn").click(function () {
