@@ -32,12 +32,23 @@ document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('.fixed-action-btn');
   var instances = M.FloatingActionButton.init(elems, {
     direction: 'left',
-    hoverEnabled: true
+    hoverEnabled: true,
   });
 });
 
+
+//On Click function to activate light and dark mode
+$('#darkmode').click(function () {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+})
+
+// $('#lightmode').click(function () {
+//   if 
+// })
+
 // //Initialize dropdown menu for Travel Time
-var instance = M.FormSelect.getInstance(elem);
+var instance = M.FormSelect.getInstance(elems);
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
   instances = M.FormSelect.init(elems,
@@ -48,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
   );
 });
 //Event Listner for Search Button to begin Geocoding Request
-// $("#searchbutton").click(function () {
+// $("#searchbutton").click(function () {})
 
 //Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
@@ -101,6 +112,39 @@ function sendTimeMapRequest(geocodingResponse) {
     "Accept-Language": "en-US",
     "Access-Control-Allow-Origin": accessControl,
   };
+
+  $.ajax({
+    url: "https://api.traveltimeapp.com/v4/time-map",
+    type: "POST",
+    headers: timeMapHeader,
+    data: JSON.stringify(request),
+    contentType: "application/json; charset=UTF-8",
+  }).then(function (res) {
+    // Perimeter of time map shape 
+    perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
+    // TO DO - TomTom loop function
+    console.log(res);
+  })
+}
+
+function searchPerimeter(coordArray) {
+
+  resultsArr = [];
+
+  // Change this to while resultsArr.length <10
+  for (var i = 0; i < 10; i++) {
+    // Random number between 0 and array length
+    var randomInt = Math.floor(Math.random() * coordArray.length)
+
+    // lat lon variables from 
+    var lat = coordArray[randomInt]['lat'];
+    var lon = coordArray[randomInt]['lng'];
+
+    // console.log("lat: " + lat);
+    // console.log("lon: " + lon);
+    tomTomFuzzyQuery(lat, lon);
+    // If this is a unique result
+  }
 
   $.ajax({
     url: "https://api.traveltimeapp.com/v4/time-map",
@@ -230,4 +274,4 @@ function initMap() {
     }
   }
   // sendGeocodingRequest(startingLocation);
-};
+}
