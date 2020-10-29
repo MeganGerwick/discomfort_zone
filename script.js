@@ -71,7 +71,7 @@ $('#darkmode').click(function () {
   else {
     mode = "light";
     $('#body').removeClass('dark-mode')
-    $('#darkmode').RemoveClass('btn-floating green lighten-4')
+    $('#darkmode').removeClass('btn-floating green lighten-4')
     $('#darkmode').addClass('btn-floating green darken-4')
     localStorage.setItem('color mode', mode)
   }
