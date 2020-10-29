@@ -64,15 +64,15 @@ $('#darkmode').click(function () {
   if (mode === "light") {
     mode = "dark";
     $('#body').addClass('dark-mode')
+    $('#darkmode').removeClass('btn-floating green darken-4')
+    $('#darkmode').addClass('btn-floating green lighten-4')
     localStorage.setItem('color mode', mode)
   }
   else {
     mode = "light";
     $('#body').removeClass('dark-mode')
-    $('#darkmode').removeClass('btn-floating green darken-4')
-    $('#darkmode').addClass('btn-floating green lighten-4')
-
-
+    $('#darkmode').RemoveClass('btn-floating green lighten-4')
+    $('#darkmode').addClass('btn-floating green darken-4')
     localStorage.setItem('color mode', mode)
   }
 })
