@@ -10,7 +10,7 @@ var TRAVEL_TIME_API_KEY = '59530f476afdb89ee3907bf314e7d611';
 var TRAVEL_TIME_APP_ID = '1a8d3c90';
 var TOMTOM_API_KEY = 'AhFit0MPeBaiAJcBaFEcJUDHZXcGpeZ7';
 var NUMBER_OF_SEARCH_RESULTS = 5;
-
+var renderSearchResultArr = [];
 
 // This will be from an input
 var startingLocation = 'Kansas City';
@@ -148,51 +148,17 @@ function sendTimeMapRequest(geocodingResponse) {
   })
 }
 
-function searchPerimeter(coordArray) {
-  console.log('Inside searchPerimeter');
-
-  // Change this to while resultsArr.length <10
-  for (var i = 0; i < 10; i++) {
-    // Random number between 0 and array length
-    var randomInt = Math.floor(Math.random() * coordArray.length)
-
-    // lat lon variables from 
-    var lat = coordArray[randomInt]['lat'];
-    var lon = coordArray[randomInt]['lng'];
-
-    console.log("lat: " + lat);
-    console.log("lon: " + lon);
-    tomTomFuzzyQuery(lat, lon);
-    // If this is a unique result
-  }
-
-  $.ajax({
-    url: "https://api.traveltimeapp.com/v4/time-map",
-    type: "POST",
-    headers: timeMapHeader,
-    data: JSON.stringify(request),
-    contentType: "application/json; charset=UTF-8",
-  }).then(function (res) {
-    // Perimeter of time map shape 
-    perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
-    // Search for points of interest along the perimeter
-    searchPerimeter(perimeterCoordsArr);
-  });
-};
-
 // Takes an array of coordinates and returns an array of points of interest
 function searchPerimeter(coordArray) {
-  console.log('Inside searchPerimeter');
-  resultsArr = [];
-
+  renderSearchResultArr = [];
   // Keep adding objects to resultsArr until there are NUMBER_OF_SEARCH_RESULTS
   //while (resultsArr.length < NUMBER_OF_SEARCH_RESULTS) 
   //for (var i = 0; i < NUMBER_OF_SEARCH_RESULTS; i++)
   for (var i = 0; i < NUMBER_OF_SEARCH_RESULTS; i++) {
-    console.log('resultsArr: ', resultsArr);
+    // console.log('resultsArr: ', resultsArr);
     // Random number between 0 and array length
     var randomInt = Math.floor(Math.random() * coordArray.length)
-    console.log('randomInt: ', randomInt);
+    // console.log('randomInt: ', randomInt);
     // lat lon variables for query
     var lat = coordArray[randomInt]['lat'];
     var lon = coordArray[randomInt]['lng'];
@@ -217,11 +183,12 @@ function searchPerimeter(coordArray) {
       url: queryURL,
       type: "GET",
     }).then(function (res) {
-      console.log("res: ", res);
+      // console.log("res: ", res);
       // Object to add to return object {name: '', address: '', rating: ''}
       var tomTomResultObj;
       // If there is a usable response
       if (res['results'][0]) {
+        // Make a new, smaller object
         tomTomResultObj = {
           name: res['results'][0]['poi']['name'],
           address: res['results'][0]['address']['freeformAddress'],
@@ -229,43 +196,37 @@ function searchPerimeter(coordArray) {
         }
       }
 
-      console.log("tomTomResultObj: ", tomTomResultObj);
-
-      if (!(resultsArr[0]) && tomTomResultObj) {
-        if (!(resultsArr.some(function (obj) {
+      if (!(renderSearchResultArr[0]) && tomTomResultObj) {
+        if (!(renderSearchResultArr.some(function (obj) {
           return obj.name == tomTomResultObj.name
         }))) {
-          // Add tomtomObj to resultsArr
-          resultsArr.push(tomTomResultObj)
+          // Add tomtomObj to renderSearchResultArr
+          renderSearchResultArr.push(tomTomResultObj)
         };
       } else if (tomTomResultObj) {
-        resultsArr.push(tomTomResultObj)
+        renderSearchResultArr.push(tomTomResultObj)
       };
+      renderSearchResults();
     });
   };
-  // After loop is complete, render the results
-  console.log('resultsArr 1: ', resultsArr);
-  renderSearchResults(resultsArr);
 };
 
 var TestResultArr;
 
-function renderSearchResults(resultArr) {
+function renderSearchResults() {
 
-  testResultArr = JSON.stringify(resultArr);
   $searchResultBody.empty();
 
-  for (var i = 0; i < 5; i++) {
-    console.log(i);
-    console.log('resultarr i -2', resultArr);
+  for (var i = 0; i < renderSearchResultArr.length; i++) {
+    // console.log('resultarr i -2', resultArr);
     // Initialize result row
-    if (resultArr[i]) {
-      console.log('resultArr i', resultArr[i]);
+    if (renderSearchResultArr[i]) {
+      // console.log('renderSearchResultArr i', renderSearchResultArr[i]);
       var $trow = $('<tr>');
       // Populate table data
-      var $nameData = $('<td>').text(resultArr[i].name);
-      var $addressData = $('<td>').text(resultArr[i].address);
-      var $ratingeData = $('<td>').text(resultArr[i].rating);
+      var $nameData = $('<td>').text(renderSearchResultArr[i].name);
+      var $addressData = $('<td>').text(renderSearchResultArr[i].address);
+      var $ratingeData = $('<td>').text(renderSearchResultArr[i].rating);
       // Append data to row
       $trow.append($nameData, $addressData, $ratingeData);
       // Append row to table
