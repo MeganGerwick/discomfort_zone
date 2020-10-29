@@ -118,7 +118,7 @@ function sendGeocodingRequest(startingLocation) {
   };
 
   $.ajax({
-    url: "http://api.traveltimeapp.com/v4/geocoding/search",
+    url: "https://api.traveltimeapp.com/v4/geocoding/search",
     type: "GET",
     headers: geocodingHeader,
     data: request,
