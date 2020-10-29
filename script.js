@@ -69,6 +69,10 @@ $('#darkmode').click(function () {
   else {
     mode = "light";
     $('#body').removeClass('dark-mode')
+    $('#darkmode').removeClass('btn-floating green darken-4')
+    $('#darkmode').addClass('btn-floating green lighten-4')
+
+
     localStorage.setItem('color mode', mode)
   }
 })
@@ -88,7 +92,7 @@ $(document).on('click', function (event) {
     var userLocation = $('#locationInput').val();
     sendGeocodingRequest(userLocation);
   } else if (event.target.matches('#hour2')) {
-    userMinutes = 60 * 2 ;
+    userMinutes = 60 * 2;
     var userLocation = $('#locationInput').val();
     sendGeocodingRequest(userLocation);
   } else if (event.target.matches('#hour3')) {

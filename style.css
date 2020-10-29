@@ -20,5 +20,9 @@ body {
     height: auto;
 }
 
-
-}
+.btn{
+    white-space:normal;
+    word-wrap: break-word; 
+    max-width: width 200px;
+    height: 100%;
+    }
