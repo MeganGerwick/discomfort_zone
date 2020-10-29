@@ -73,13 +73,31 @@ $('#darkmode').click(function () {
   }
 })
 
-//Event Listner for Search Button to begin Geocoding Request
-$(".btn").click(function () {
-  var startingLocation = $('#locationInput').val();
-  var userMinutes = parseInt($(self).val());
-  console.log(userMinutes);
-  sendGeocodingRequest(startingLocation)
-})
+// Document click handler
+$(document).on('click', function (event) {
+  // Stops the page from reloading after form submission
+  event.preventDefault();
+  // If 30-minute, 1hour, 2hour, 3hour button clicked ...
+  if (event.target.matches('#minutes30')) {
+    // ... update search parameters and start geodcoding function.
+    userMinutes = 30;
+    var userLocation = $('#locationInput').val();
+    sendGeocodingRequest(userLocation);
+  } else if (event.target.matches('#hour1')) {
+    userMinutes = 60;
+    var userLocation = $('#locationInput').val();
+    sendGeocodingRequest(userLocation);
+  } else if (event.target.matches('#hour2')) {
+    userMinutes = 60 * 2 ;
+    var userLocation = $('#locationInput').val();
+    sendGeocodingRequest(userLocation);
+  } else if (event.target.matches('#hour3')) {
+    userMinutes = 60 * 3;
+    var userLocation = $('#locationInput').val();
+    sendGeocodingRequest(userLocation);
+  };
+});
+
 //Sends the geocoding request.
 function sendGeocodingRequest(startingLocation) {
   var request = {
@@ -106,7 +124,7 @@ function sendGeocodingRequest(startingLocation) {
 userMinutes = 30;
 // Sends the request for the Time Map multipolygon.
 function sendTimeMapRequest(geocodingResponse) {
-  console.log('Inside sendTimeMapRequest');
+  // console.log('Inside sendTimeMapRequest');
   // The request for Time Map. 
   // Reference: http://docs.traveltimeplatform.com/reference/time-map/
   var coords = geocodingResponse.features[0].geometry.coordinates;
@@ -143,9 +161,10 @@ function sendTimeMapRequest(geocodingResponse) {
   }).then(function (res) {
     // Perimeter of time map shape 
     perimeterCoordsArr = res.results[0]['shapes'][0]['shell'];
-    // TO DO - TomTom loop function
+    // Search along the perimeter
     searchPerimeter(perimeterCoordsArr);
-    console.log(res);
+    console.log('timMap res: ', res);
+    console.log('PerimeterCoordsArr: ', perimeterCoordsArr);
   })
 }
 
@@ -159,7 +178,7 @@ function searchPerimeter(coordArray) {
     // console.log('resultsArr: ', resultsArr);
     // Random number between 0 and array length
     var randomInt = Math.floor(Math.random() * coordArray.length)
-    // console.log('randomInt: ', randomInt);
+    console.log('randomInt: ', randomInt);
     // lat lon variables for query
     var lat = coordArray[randomInt]['lat'];
     var lon = coordArray[randomInt]['lng'];
@@ -172,7 +191,7 @@ function searchPerimeter(coordArray) {
     var limit = '&limit=2';
     var lat = '&lat=' + lat;
     var lon = '&lon=' + lon;
-    var radius = '&radius=2000';
+    var radius = '&radius=2000'; //in meters
     var id = '&idx';
     var urlSet = 'Set=POI';
     var category = '&categorySet=7315';
@@ -184,7 +203,7 @@ function searchPerimeter(coordArray) {
       url: queryURL,
       type: "GET",
     }).then(function (res) {
-      // console.log("res: ", res);
+      console.log("TomTom res: ", res);
       // Object to add to return object {name: '', address: '', rating: ''}
       var tomTomResultObj;
       // If there is a usable response
@@ -212,14 +231,12 @@ function searchPerimeter(coordArray) {
   };
 };
 
-var TestResultArr;
-
 function renderSearchResults() {
-
+  console.log('renderSearchResultArr', renderSearchResultArr);
   $searchResultBody.empty();
 
   for (var i = 0; i < renderSearchResultArr.length; i++) {
-    // console.log('resultarr i -2', resultArr);
+    // console.log('renderSearchResultArr', renderSearchResultArr);
     // Initialize result row
     if (renderSearchResultArr[i]) {
       // console.log('renderSearchResultArr i', renderSearchResultArr[i]);
