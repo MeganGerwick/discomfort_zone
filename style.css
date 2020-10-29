@@ -1,0 +1,28 @@
+#map {
+    height: 30%;
+}
+body {
+    height: 30%;
+    margin: 0;
+    padding: 0;   
+}
+#logo {
+    align-content: center;
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn{
+    white-space:normal;
+    word-wrap: break-word; 
+    max-width: width 200px;
+    height: 100%;
+    }
