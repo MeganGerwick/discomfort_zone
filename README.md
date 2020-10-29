@@ -13,9 +13,9 @@ This project was created as the first project for the part-time coding bootcamp 
 
 ## Screenshots
 
-![screenshot 1](./assets/screenshot1.png "Discomfort Zone in action!")
+![discomfortzonescreenshot](https://user-images.githubusercontent.com/69534417/97613190-6144bf80-19e6-11eb-9fa1-300e07139311.PNG)
+![discomfortzonescreenshot2](https://user-images.githubusercontent.com/69534417/97613304-846f6f00-19e6-11eb-96f4-cffebbd51a9d.PNG)
 
-![screenshot 2](./assets/screenshot2.png "Discomfort Zone in action!")
 
 ## Technologies
 
