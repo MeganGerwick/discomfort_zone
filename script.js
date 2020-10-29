@@ -208,15 +208,16 @@ function searchPerimeter(coordArray) {
       type: "GET",
     }).then(function (res) {
       console.log("TomTom res: ", res);
-      // Object to add to return object {name: '', address: '', rating: ''}
+      // Object to add to return object {name: '', category: '', website: '', address: '',}
       var tomTomResultObj;
       // If there is a usable response
       if (res['results'][0]) {
         // Make a new, smaller object
         tomTomResultObj = {
-          name: res['results'][0]['poi']['name'],
+          name: res['results'][0]['poi']['name'], // Name
+          category: res['results'][0]['poi']['categories'][0], // Category
+          website: res['results'][0]['poi']['url'], // Website
           address: res['results'][0]['address']['freeformAddress'],
-          rating: '',
         }
       }
 
@@ -245,12 +246,13 @@ function renderSearchResults() {
     if (renderSearchResultArr[i]) {
       // console.log('renderSearchResultArr i', renderSearchResultArr[i]);
       var $trow = $('<tr>');
-      // Populate table data
+      // Populate table data from {name: '', category: '', website: '', address: '',} object
       var $nameData = $('<td>').text(renderSearchResultArr[i].name);
-      var $addressData = $('<td>').text(renderSearchResultArr[i].address);
-      var $ratingeData = $('<td>').text(renderSearchResultArr[i].rating);
+      var $categoryData = $('<td>').text(renderSearchResultArr[i].category); // Category 
+      var $websiteData = $('<td>').text(renderSearchResultArr[i].website); // Website
+      var $addressData = $('<td>').text(renderSearchResultArr[i].address); // Address 
       // Append data to row
-      $trow.append($nameData, $addressData, $ratingeData);
+      $trow.append($nameData, $categoryData, $websiteData, $addressData);
       // Append row to table
       $searchResultBody.append($trow);
     };
