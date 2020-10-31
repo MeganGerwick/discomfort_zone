@@ -4,10 +4,10 @@ var accessControl = document.location.href;
 // Variables for Travel Time
 // GS - '59530f476afdb89ee3907bf314e7d611'
 // Bz - '4ff0bccdbf55ab3a48d6c79aef2562e8'
-var TRAVEL_TIME_API_KEY = 'd91d9d1769d69892e29274e1ed792097';
+var TRAVEL_TIME_API_KEY = '100c705981c0f6e281b9aef60704e93d';
 // GS - '1a8d3c90'
 // BZ - '4af91d9e'
-var TRAVEL_TIME_APP_ID = 'd79f2509';
+var TRAVEL_TIME_APP_ID = '96041dfe';
 var TOMTOM_API_KEY = 'AhFit0MPeBaiAJcBaFEcJUDHZXcGpeZ7';
 var NUMBER_OF_SEARCH_RESULTS = 5;
 var renderSearchResultArr = [];
